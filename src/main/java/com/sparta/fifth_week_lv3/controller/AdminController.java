@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +54,8 @@ public class AdminController {
     @PostMapping("/admin/login")
     public ResponseEntity<?> login(@Valid @RequestBody AdminRequestDto requestDto, BindingResult bindingResult) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+        System.out.println("requestDto.getPassword() = " + requestDto.getPassword());
+        System.out.println("requestDto.getEmail() = " + requestDto.getEmail());
         if (fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());

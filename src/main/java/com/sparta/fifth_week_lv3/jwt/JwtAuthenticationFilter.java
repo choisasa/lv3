@@ -30,17 +30,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("로그인 시도");
         try {
             LoginRequestDto requestDto = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDto.class);
-            System.out.println("requestDto.getEmail() = " + requestDto.getEmail());
-            System.out.println("requestDto.getPassword() = " + requestDto.getPassword());
-
-
             return getAuthenticationManager().authenticate( // 클라이언트로부터 입력받은 유저 이름과 패스워드를 통해서 토큰을 만들고, Authentication
-                    new UsernamePasswordAuthenticationToken(
-                            requestDto.getEmail(),
-                            requestDto.getPassword(),
-                            null
-                    )
-            );
+                    new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword(), null));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
@@ -52,7 +43,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         log.info("로그인 성공 및 JWT 생성"); // attemptAuthentication 메소드에서 받은 Authentication 객체가 인증되었는지 아닌지를 판단하여, 성공한 경우 수행함.
         String username = ((AdminDetailsImpl) authResult.getPrincipal()).getAdmin().getEmail();
         AdminRoleEnum role = ((AdminDetailsImpl) authResult.getPrincipal()).getAdmin().getAuthority();
-
         String token = jwtUtil.createToken(username, role);
         jwtUtil.addJwtToCookie(token, response); // 로그인에 성공한 경우, JWT 토큰을 발급함.
     }
