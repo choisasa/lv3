@@ -29,6 +29,8 @@ public class AdminService {
 
         }
 
+        System.out.println("email = " + email);
+        System.out.println("password = " + password);
         adminRepository.save(requestDto.toEntity(email, password, department, authority));
         AdminResponseDto responseDto = new AdminResponseDto(requestDto.toEntity(email, password, department, authority));
         return responseDto;

@@ -17,8 +17,5 @@ public class AdminResponseDto {
         this.password = admin.getPassword();
         this.department = admin.getDepartment();
         this.authority = admin.getAuthority();
-
     }
-
-
 }
