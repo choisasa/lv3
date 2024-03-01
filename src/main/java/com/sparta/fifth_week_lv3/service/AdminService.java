@@ -36,19 +36,5 @@ public class AdminService {
 
     }
 
-    public void login(AdminRequestDto requestDto) {
-        String email = requestDto.getEmail();
-        String password = requestDto.getPassword();
-        Admin findedAdmin = adminRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("등록된 이메일이 없습니다."));
-        if (!passwordEncoder.matches(password, findedAdmin.getPassword())) {
 
-        }
-
-
-//        adminRepository.save(requestDto.toEntity(email, password, department, authority));
-//        AdminResponseDto responseDto = new AdminResponseDto(requestDto.toEntity(email, password, department, authority));
-//        return responseDto;
-
-
-    }
 }
