@@ -1,4 +1,4 @@
-package com.sparta.fifth_week_lv3.dto;
+package com.sparta.fifth_week_lv3.dto.admin;
 
 import com.sparta.fifth_week_lv3.entity.Admin;
 import com.sparta.fifth_week_lv3.entity.AdminRoleEnum;

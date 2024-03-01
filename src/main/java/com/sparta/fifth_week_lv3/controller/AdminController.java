@@ -1,7 +1,7 @@
 package com.sparta.fifth_week_lv3.controller;
 
-import com.sparta.fifth_week_lv3.dto.AdminRequestDto;
-import com.sparta.fifth_week_lv3.dto.AdminResponseDto;
+import com.sparta.fifth_week_lv3.dto.admin.AdminRequestDto;
+import com.sparta.fifth_week_lv3.dto.admin.AdminResponseDto;
 import com.sparta.fifth_week_lv3.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
