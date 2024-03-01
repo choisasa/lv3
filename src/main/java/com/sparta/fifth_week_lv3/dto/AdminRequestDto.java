@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 public class AdminRequestDto {
-    private Long id;
     private String email;
     private String password;
     private DepartmentTypeEnum department;
