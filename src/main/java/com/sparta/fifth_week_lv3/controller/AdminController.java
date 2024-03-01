@@ -54,8 +54,6 @@ public class AdminController {
     @PostMapping("/admin/login")
     public ResponseEntity<?> login(@Valid @RequestBody AdminRequestDto requestDto, BindingResult bindingResult) {
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-        System.out.println("requestDto.getPassword() = " + requestDto.getPassword());
-        System.out.println("requestDto.getEmail() = " + requestDto.getEmail());
         if (fieldErrors.size() > 0) {
             for (FieldError fieldError : bindingResult.getFieldErrors()) {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());

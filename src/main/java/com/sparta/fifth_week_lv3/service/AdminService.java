@@ -40,11 +40,7 @@ public class AdminService {
         String email = requestDto.getEmail();
         String password = requestDto.getPassword();
         Admin findedAdmin = adminRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("등록된 이메일이 없습니다."));
-        System.out.println("password = " + password);
-        System.out.println("findedAdmin.getPassword() = " + findedAdmin.getPassword());
         if (!passwordEncoder.matches(password, findedAdmin.getPassword())) {
-            System.out.println("email = " + email);
-            System.out.println("password = " + password);
 
         }
 
