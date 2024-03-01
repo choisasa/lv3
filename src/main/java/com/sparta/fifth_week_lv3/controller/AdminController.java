@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,17 +57,14 @@ public class AdminController {
                 log.error(fieldError.getField() + " 필드 : " + fieldError.getDefaultMessage());
             }
         }
-
         try {
-            adminService.login(requestDto);
-            return ResponseEntity.status(HttpStatus.OK).body("로그인 성공");
-//            return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+            AdminResponseDto responseDto = new AdminResponseDto(requestDto.toEntity(requestDto.getEmail(), requestDto.getPassword(), requestDto.getDepartment(), requestDto.getAuthority()));
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
         } catch (Exception e) {
             log.error("관리자 등록 중 에러 발생: " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
 
 
 }
