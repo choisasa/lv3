@@ -1,6 +1,7 @@
 package com.sparta.fifth_week_lv3.service;
 
 import com.sparta.fifth_week_lv3.dto.CourseDto;
+import com.sparta.fifth_week_lv3.dto.CourseResponseDto;
 import com.sparta.fifth_week_lv3.entity.Course;
 import com.sparta.fifth_week_lv3.repository.CourseRepository;
 import lombok.Setter;
@@ -9,59 +10,49 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
-@Setter
 public class CourseService {
     private final CourseRepository courseRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository){
+    public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 
-    // 강의 동록
-    public Course registerCourse(CourseDto courseDto){
-        Course course = new Course(
-                courseDto.getCourseName(),
-                courseDto.getPrice(),
-                courseDto.getCategory(),
-                courseDto.getLecturer()
-                //new Date()
-        );
+    // 강의 등록
+    public CourseResponseDto registerCourse(CourseDto courseDto) {
+        String courseName = courseDto.getCourseName();
+        Double price = courseDto.getPrice();
+        String category = courseDto.getCategory();
+        String lecturerName = courseDto.getLecturerName();
 
-        return courseRepository.save(course);
+        // Course 엔티티 생성자를 호출하여 createdAt을 설정
+        Course course = new Course(courseName, price, category, lecturerName);
+
+        // 저장된 Course 엔티티 정보를 CourseResponseDto로 변환하여 반환
+        Course savedCourse = courseRepository.save(course);
+        return new CourseResponseDto(savedCourse);
     }
 
-    // 강의 수정
-    public ResponseEntity<?> updateCourseInfo(Long courseId, Course updatedCourse) {
-        // 해당 ID의 강의를 찾습니다.
-        Optional<Course> optionalCourse = courseRepository.findById(courseId);
-        if (!optionalCourse.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 강의를 찾을 수 없습니다.");
-        }
+    // 선택한 강의 조회
+    public CourseResponseDto getCourseByName(String courseName) {
+        Course course = courseRepository.findByCourseName(courseName)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이름의 강의를 찾을 수 없습니다."));
+        return new CourseResponseDto(course);
+    }
 
-        Course course = optionalCourse.get();
-
-        // 수정된 정보를 갱신합니다.
-        if (updatedCourse.getCourseName() != null) {
-            course.setCourseName(updatedCourse.getCourseName());
-        }
-        if (updatedCourse.getPrice() != null) {
-            course.setPrice(updatedCourse.getPrice());
-        }
-        if (updatedCourse.getCategory() != null) {
-            course.setCategory(updatedCourse.getCategory());
-        }
-        if (updatedCourse.getLecturer() != null) {
-            course.setLecturer(updatedCourse.getLecturer());
-        }
-
-        // 수정된 강의 저장
-        courseRepository.save(course);
-
-        return ResponseEntity.ok(course);
+    // 카테고리별 강의 목록 조회
+    public List<CourseResponseDto> getCoursesByCategory(String category) {
+        List<Course> courses = courseRepository.findByCategoryOrderByCreatedAtDesc(category);
+        return courses.stream()
+                .map(CourseResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
+

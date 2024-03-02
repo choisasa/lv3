@@ -1,15 +1,21 @@
 package com.sparta.fifth_week_lv3.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sparta.fifth_week_lv3.entity.Course;
+import lombok.*;
 
 @Getter
 public class CourseDto {
     private String courseName;
-    private double price;
+    private Double price;
     private String category;
-    private String lecturer;
-}
+    private String lecturerName;
 
+    public Course toEntity() {
+        Course course = new Course();
+        course.setCourseName(this.courseName);
+        course.setPrice(this.price != null ? this.price.doubleValue() : null);
+        course.setCategory(this.category);
+        course.setLecturerName(this.lecturerName);
+        return course;
+    }
+}

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Entity
 @Getter
 @Table(name = "lecturer")
@@ -16,7 +19,7 @@ public class Lecturer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String lecturerName;
 
     @Column(nullable = false)
@@ -40,6 +43,4 @@ public class Lecturer {
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;
     }
-
-
 }
