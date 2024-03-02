@@ -7,6 +7,7 @@ import com.sparta.fifth_week_lv3.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -45,4 +46,23 @@ public class CourseService {
     }
 
 
+    @Transactional
+    public CourseResponseDto updateCourseInfo(CourseDto courseDto) {
+        String courseName = courseDto.getCourseName();
+        Double price = courseDto.getPrice();
+        String category = courseDto.getCategory();
+        Course course = courseRepository.findByCourseName(courseName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
+        course.update(courseName, price, category);
+        CourseResponseDto responseDto = new CourseResponseDto(course);
+        return responseDto;
+    }
+
+    @Transactional
+    public CourseResponseDto deleteCourseInfo(CourseDto courseDto) {
+        String courseName = courseDto.getCourseName();
+        Course course = courseRepository.findByCourseName(courseName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
+        courseRepository.delete(course);
+        CourseResponseDto responseDto = new CourseResponseDto(course);
+        return responseDto;
+    }
 }

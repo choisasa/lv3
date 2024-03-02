@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @NoArgsConstructor
@@ -39,6 +37,14 @@ public class Course {
         this.price = price;
         this.category = category;
         this.lecturerName = lecturerName;
+    }
+
+    public void update(String courseName, Double price, String category) {
+        this.courseName = courseName;
+        this.price = price;
+        this.category = category;
+        this.lecturerName = lecturerName;
+
     }
 
 }
