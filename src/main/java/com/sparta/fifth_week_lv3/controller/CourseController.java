@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,24 @@ public class CourseController {
     public ResponseEntity<CourseResponseDto> registerCourse(@RequestBody CourseDto courseDto) {
         CourseResponseDto responseDto = courseService.registerCourse(courseDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
+    @Secured("ROLE_MANAGER")
+    @Operation(summary = "강의 수정", description = "강의 수정시 사용할 정보를 입력합니다.")
+    @Parameter(name = "JSON", description = " courseName, price, category 필요")
+    @PutMapping("/course")
+    public ResponseEntity<CourseResponseDto> updateCourseInfo(@RequestBody CourseDto courseDto) {
+        CourseResponseDto responseDto = courseService.updateCourseInfo(courseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @Secured("ROLE_MANAGER")
+    @Operation(summary = "강의 삭제", description = "강의 삭제시 사용할 정보를 입력합니다.")
+    @Parameter(name = "JSON", description = "courseName 필요")
+    @DeleteMapping("/course")
+    public ResponseEntity<CourseResponseDto> deleteCourseInfo(@RequestBody CourseDto courseDto) {
+        CourseResponseDto responseDto = courseService.deleteCourseInfo(courseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     // 강의 조회
