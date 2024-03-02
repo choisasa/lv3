@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -31,40 +32,19 @@ public class LecturerService {
         LecturerResponseDto responseDto = new LecturerResponseDto(convertedEntity);
         return responseDto;
     }
+
+    @Transactional
+    public LecturerResponseDto updateLecturerInfo(LecturerDto lecturerDto) {
+        String lecturerName = lecturerDto.getLecturerName();
+        int career = lecturerDto.getCareer();
+        String company = lecturerDto.getCompany();
+        String phoneNumber = lecturerDto.getPhoneNumber();
+        String introduction = lecturerDto.getPhoneNumber();
+        Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerDto.getLecturerName()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
+        lecturer.update(career, company, phoneNumber, introduction);
+        LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
+        return responseDto;
+    }
+
+
 }
-
-
-//    public ResponseEntity<?> updateLecturerInfo(Long lecturerId, Lecturer updatedLecturer) {
-//        // 해당 ID의 강사 찾기
-//        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
-//        if (!optionalLecturer.isPresent()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 강사를 찾을 수 없습니다.");
-//        }
-//
-//        Lecturer lecturer = optionalLecturer.get();
-//
-//        // 수정된 정보 업데이트
-//        if (updatedLecturer.getCareer() != null) {
-//            lecturer.setCareer(updatedLecturer.getCareer());
-//        }
-//        if (updatedLecturer.getCompany() != null) {
-//            lecturer.setCompany(updatedLecturer.getCompany());
-//        }
-//        if (updatedLecturer.getPhoneNumber() != null) {
-//            lecturer.setPhoneNumber(updatedLecturer.getPhoneNumber());
-//        }
-//        if (updatedLecturer.getIntroduction() != null) {
-//            lecturer.setIntroduction(updatedLecturer.getIntroduction());
-//        }
-//
-//        // 수정된 강사 정보를 저장
-//        lecturerRepository.save(lecturer);
-//
-//        return ResponseEntity.ok(lecturer);
-//    }
-//
-////    public ResponseEntity<?> getLecturerById(Long lecturerId){
-////        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
-////
-////    }
-//}

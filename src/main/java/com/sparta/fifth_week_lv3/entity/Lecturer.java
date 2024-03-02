@@ -16,7 +16,7 @@ public class Lecturer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String lecturerName;
 
     @Column(nullable = false)
@@ -42,4 +42,11 @@ public class Lecturer {
     }
 
 
+    public void update(int career, String company, String phoneNumber, String introduction) {
+        this.career = career;
+        this.company = company;
+        this.phoneNumber = phoneNumber;
+        this.introduction = introduction;
+
+    }
 }

@@ -43,6 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = ((AdminDetailsImpl) authResult.getPrincipal()).getAdmin().getEmail();
         AdminRoleEnum role = ((AdminDetailsImpl) authResult.getPrincipal()).getAdmin().getAuthority();
         String token = jwtUtil.createToken(username, role);
+        log.info("JWT " + token); // attemptAuthentication 메소드에서 받은 Authentication 객체가 인증되었는지 아닌지를 판단하여, 성공한 경우 수행함.
         jwtUtil.addJwtToCookie(token, response); // 로그인에 성공한 경우, JWT 토큰을 발급함.
     }
 
