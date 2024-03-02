@@ -1,5 +1,4 @@
 package com.sparta.fifth_week_lv3.entity;
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -28,8 +27,5 @@ public class Admin {
         this.password = password;
         this.department = department;
         this.authority = authority;
-
     }
-
-
 }

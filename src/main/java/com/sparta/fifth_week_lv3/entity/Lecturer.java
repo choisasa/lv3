@@ -47,6 +47,5 @@ public class Lecturer {
         this.company = company;
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;
-
     }
 }

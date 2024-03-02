@@ -1,5 +1,4 @@
 package com.sparta.fifth_week_lv3.controller;
-
 import com.sparta.fifth_week_lv3.dto.admin.AdminRequestDto;
 import com.sparta.fifth_week_lv3.dto.admin.AdminResponseDto;
 import com.sparta.fifth_week_lv3.service.AdminService;
@@ -65,6 +64,4 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
-
 }
