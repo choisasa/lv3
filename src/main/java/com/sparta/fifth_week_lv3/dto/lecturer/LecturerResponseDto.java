@@ -1,7 +1,9 @@
 package com.sparta.fifth_week_lv3.dto.lecturer;
 
 import com.sparta.fifth_week_lv3.entity.Lecturer;
+import lombok.Getter;
 
+@Getter
 public class LecturerResponseDto {
     private String lecturerName;
     private Integer career;
