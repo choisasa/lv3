@@ -27,7 +27,7 @@ public class LecturerService {
         String introduction = lecturerDto.getPhoneNumber();
         Lecturer convertedEntity = lecturerDto.toEntity(lecturerName, career, company, phoneNumber, introduction);
         // 강사 등록 중복 확인
-        if (lecturerRepository.findByLecturerName(lecturerDto.getLecturerName()).isPresent()) {
+        if (lecturerRepository.findByLecturerName(lecturerName).isPresent()) {
             throw new IllegalArgumentException("중복된 강사이름입니다.");
         }
         lecturerRepository.save(convertedEntity);

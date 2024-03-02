@@ -9,14 +9,15 @@ public class CourseResponseDto {
     private String courseName;
     private Double price;
     private String category;
-    private String createdAt;
+    private String lecturerName;
 
     public CourseResponseDto(Course course) {
         this.id = course.getId();
         this.courseName = course.getCourseName();
         this.price = course.getPrice();
         this.category = course.getCategory();
-        this.createdAt = course.getCreatedAt().toString();
+        this.lecturerName = course.getLecturerName();
+
     }
 
 
