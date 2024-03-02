@@ -43,14 +43,8 @@ public class LecturerService {
         LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
         return responseDto;
     }
-
-    @Transactional
-    public LecturerResponseDto deleteLecturerInfo(LecturerDto lecturerDto) {
-        String lecturerName = lecturerDto.getLecturerName();
-        Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerDto.getLecturerName()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
-        lecturerRepository.delete(lecturer);
-        LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
-        return responseDto;
+    public LecturerDto toDto(Lecturer lecturer){
+        return new LecturerDto(lecturer.getName(), lecturer.getCareer(), lecturer.getPhoneNumber(), lecturer.getIntroduction(), lecturer.getCompany(), lecturer.getLecturer());
     }
 
 
