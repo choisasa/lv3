@@ -1,10 +1,6 @@
 package com.sparta.fifth_week_lv3.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
+import com.sparta.fifth_week_lv3.entity.Course;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -14,15 +10,14 @@ public class CourseDto {
     private String courseName;
     private Double price;
     private String category;
-    private String lecturer;
-    private LocalDateTime createdAt;
+    private String lecturerName;
 
-    public CourseDto(String courseName, Double price, String category, String lecturer, LocalDateTime createdAt){
-        this.courseName = courseName;
-        this.price = price;
-        this.category = category;
-        this.lecturer = lecturer;
-        this.createdAt = createdAt;
+    public Course toEntity() {
+        Course course = new Course();
+        course.setCourseName(this.courseName);
+        course.setPrice(this.price != null ? this.price.doubleValue() : null);
+        course.setCategory(this.category);
+        course.setLecturerName(this.lecturerName);
+        return course;
     }
 }
-

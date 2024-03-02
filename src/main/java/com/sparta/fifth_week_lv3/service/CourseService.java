@@ -1,6 +1,7 @@
 package com.sparta.fifth_week_lv3.Service;
 
 import com.sparta.fifth_week_lv3.dto.CourseDto;
+import com.sparta.fifth_week_lv3.dto.CourseResponseDto;
 import com.sparta.fifth_week_lv3.entity.Course;
 import com.sparta.fifth_week_lv3.repository.CourseRepository;
 import jakarta.transaction.Transactional;
@@ -15,78 +16,45 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 
 @Service
-@Setter
 public class CourseService {
     private final CourseRepository courseRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository){
+    public CourseService(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
 
-    // 강의 동록
-    public Course registerCourse(CourseDto courseDto){
-        Course course = new Course (
-                courseDto.getCourseName(),
-                courseDto.getPrice(),
-                courseDto.getCategory(),
-                courseDto.getLecturer(),
-                LocalDateTime.now()
-        );
+    // 강의 등록
+    public CourseResponseDto registerCourse(CourseDto courseDto) {
+        String courseName = courseDto.getCourseName();
+        Double price = courseDto.getPrice();
+        String category = courseDto.getCategory();
+        String lecturerName = courseDto.getLecturerName();
 
-        return courseRepository.save(course);
+        // Course 엔티티 생성자를 호출하여 createdAt을 설정
+        Course course = new Course(courseName, price, category, lecturerName);
+
+        // 저장된 Course 엔티티 정보를 CourseResponseDto로 변환하여 반환
+        Course savedCourse = courseRepository.save(course);
+        return new CourseResponseDto(savedCourse);
     }
 
-    // 강의 수정
-    public ResponseEntity<?> updateCourseInfo(Long courseId, Course updatedCourse) {
-        // 해당 ID의 강의를 찾기
-        Optional<Course> optionalCourse = courseRepository.findById(courseId);
-        if (optionalCourse.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 강의를 찾을 수 없습니다.");
-        }
-
-        Course course = optionalCourse.get();
-
-        // 수정된 정보를 갱신
-        course.setCourseName(updatedCourse.getCourseName());
-        course.setPrice(updatedCourse.getPrice());
-        course.setCategory(updatedCourse.getCategory());
-        course.setLecturer(updatedCourse.getLecturer());
-
-        // 수정된 강의 저장
-        courseRepository.save(course);
-
-        return ResponseEntity.ok(course);
+    // 선택한 강의 조회
+    public CourseResponseDto getCourseByName(String courseName) {
+        Course course = courseRepository.findByCourseName(courseName)
+                .orElseThrow(() -> new IllegalArgumentException("해당 이름의 강의를 찾을 수 없습니다."));
+        return new CourseResponseDto(course);
     }
 
-    // 선택한 강의 조회 기능
-    public CourseDto getCourseCheck(Long id){
-        Optional<Course> optionalCourse = courseRepository.findById(id);
-        if (optionalCourse.isEmpty()){
-            // 강의가 없는 경우
-            return null;
-        }
-
-        Course course = optionalCourse.get();
-        LocalDateTime createdAt = LocalDateTime.now();
-        return new CourseDto(course.getCourseName(), course.getPrice(), course.getCategory(), course.getLecturer(), createdAt);
-    }
-
-    @Transactional
-    public List<CourseDto> getCoursesByLecturerId(Long lecturerId) {
-        System.out.println("강사 ID 확인: " + lecturerId); // 강사 ID 출력
-
-        // 강사 id에 해당하는 강의 목록 조회
-        List<Course> courses = courseRepository.findByLecturerId(lecturerId);
-
-        // course 엔티티 -> courseDto -> 리스트
+    // 카테고리별 강의 목록 조회
+    public List<CourseResponseDto> getCoursesByCategory(String category) {
+        List<Course> courses = courseRepository.findByCategoryOrderByCreatedAtDesc(category);
         return courses.stream()
-                .map(course -> new CourseDto(course.getId(), course.getCourseName(), course.getPrice(), course.getCategory(), course.getLecturer(), course.getCreatedAt()))
+                .map(CourseResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

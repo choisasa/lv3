@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +57,52 @@ public class LecturerService {
         return responseDto;
     }
 
+    // 강사 정보 수정
+    public LecturerResponseDto updateLecturerInfo(Long lecturerId, LecturerDto updatedLecturerDto) {
+        Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
+        if (!optionalLecturer.isPresent()) {
+            throw new IllegalArgumentException("해당 ID의 강사를 찾을 수 없습니다.");
+        }
+
+        Lecturer lecturer = optionalLecturer.get();
+
+        // 수정된 정보 업데이트
+        Integer updatedCareer = updatedLecturerDto.getCareer();
+        String updatedCompany = updatedLecturerDto.getCompany();
+        String updatedPhoneNumber = updatedLecturerDto.getPhoneNumber();
+        String updatedIntroduction = updatedLecturerDto.getIntroduction();
+
+        // 새로운 객체로 갱신
+        Lecturer updatedLecturer = new Lecturer(
+                lecturer.getLecturerName(),
+                updatedCareer != null ? updatedCareer : lecturer.getCareer(),
+                updatedCompany != null ? updatedCompany : lecturer.getCompany(),
+                updatedPhoneNumber != null ? updatedPhoneNumber : lecturer.getPhoneNumber(),
+                updatedIntroduction != null ? updatedIntroduction : lecturer.getIntroduction()
+        );
+
+        // 수정된 강사 정보를 저장
+        lecturerRepository.save(updatedLecturer);
+
+        return new LecturerResponseDto(updatedLecturer);
+    }
+
+    // 강사조회
+    public LecturerResponseDto getLecturerByName(String lecturerName) {
+        Optional<Lecturer> optionalLecturer = lecturerRepository.findByLecturerName(lecturerName);
+        if (!optionalLecturer.isPresent()) {
+            throw new IllegalArgumentException("해당 이름의 강사를 찾을 수 없습니다.");
+        }
+
+        Lecturer lecturer = optionalLecturer.get();
+        return new LecturerResponseDto(lecturer);
+    }
+
+    // 선택한 강사가 촬영한 강의 목록 조회
+    public List<LecturerResponseDto> getLecturesByLecturerName(String lecturerName) {
+        return lecturerRepository.findByLecturerName(lecturerName).stream()
+                .map(LecturerResponseDto::new)
+                .collect(Collectors.toList());
+    }
 
 }

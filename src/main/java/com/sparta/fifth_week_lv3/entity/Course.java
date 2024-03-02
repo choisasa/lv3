@@ -1,14 +1,16 @@
 package com.sparta.fifth_week_lv3.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.time.LocalDateTime;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "course")
@@ -28,26 +30,18 @@ public class Course {
     private String category;
 
     @Column(nullable = false)
-    private String lecturer;
+    private String lecturerName;
 
-    @Column(nullable = false)
-    private Long lecturerId;
-
-//    @ManyToOne
-//    @JoinColumn(name = "lecturerId", nullable = false)
-//    private Lecturer lecturer;
-
-
-    @Column(nullable = false)
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
 
     // 생성자
-    public Course(String courseName, Double price, String category, String lecturer, LocalDateTime createdAt) {
+    public Course(String courseName, Double price, String category, String lecturerName) {
         this.courseName = courseName;
         this.price = price;
         this.category = category;
-        this.lecturer = lecturer;
-        this.createdAt = createdAt;
+        this.lecturerName = lecturerName;
+        this.createdAt=LocalDateTime.now();
     }
 
     public void setCourseName(String courseName) {
@@ -62,8 +56,8 @@ public class Course {
         this.category = category;
     }
 
-    public void setLecturer(String lecturer) {
-        this.lecturer = lecturer;
+    public void setLecturerName(String lecturerName) {
+        this.lecturerName = lecturerName;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
