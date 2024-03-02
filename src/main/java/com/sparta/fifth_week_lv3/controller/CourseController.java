@@ -1,5 +1,4 @@
 package com.sparta.fifth_week_lv3.controller;
-
 import com.sparta.fifth_week_lv3.SecurityUtils;
 import com.sparta.fifth_week_lv3.Service.CourseService;
 import com.sparta.fifth_week_lv3.dto.CourseDto;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-
 public class CourseController {
 
     private final CourseService courseService;

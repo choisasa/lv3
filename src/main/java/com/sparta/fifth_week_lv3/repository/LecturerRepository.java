@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface LecturerRepository extends JpaRepository<Lecturer, Long> {
-    Optional<Lecturer> findByLecturer(String lecturer);
+    Optional<Lecturer> findByLecturerName(String lecturerName);
 
 }
