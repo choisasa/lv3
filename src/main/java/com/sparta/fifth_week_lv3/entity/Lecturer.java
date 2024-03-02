@@ -43,4 +43,12 @@ public class Lecturer {
         this.phoneNumber = phoneNumber;
         this.introduction = introduction;
     }
+
+
+    public void update(int career, String company, String phoneNumber, String introduction) {
+        this.career = career;
+        this.company = company;
+        this.phoneNumber = phoneNumber;
+        this.introduction = introduction;
+    }
 }

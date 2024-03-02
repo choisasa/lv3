@@ -5,9 +5,8 @@ import com.sparta.fifth_week_lv3.dto.lecturer.LecturerResponseDto;
 import com.sparta.fifth_week_lv3.entity.Lecturer;
 import com.sparta.fifth_week_lv3.repository.LecturerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +32,28 @@ public class LecturerService {
         }
         lecturerRepository.save(convertedEntity);
         LecturerResponseDto responseDto = new LecturerResponseDto(convertedEntity);
+        return responseDto;
+    }
+
+    @Transactional
+    public LecturerResponseDto updateLecturerInfo(LecturerDto lecturerDto) {
+        String lecturerName = lecturerDto.getLecturerName();
+        int career = lecturerDto.getCareer();
+        String company = lecturerDto.getCompany();
+        String phoneNumber = lecturerDto.getPhoneNumber();
+        String introduction = lecturerDto.getPhoneNumber();
+        Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerDto.getLecturerName()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
+        lecturer.update(career, company, phoneNumber, introduction);
+        LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
+        return responseDto;
+    }
+
+    @Transactional
+    public LecturerResponseDto deleteLecturerInfo(LecturerDto lecturerDto) {
+        String lecturerName = lecturerDto.getLecturerName();
+        Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerDto.getLecturerName()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
+        lecturerRepository.delete(lecturer);
+        LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
         return responseDto;
     }
 

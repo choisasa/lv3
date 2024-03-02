@@ -1,10 +1,13 @@
-package com.sparta.fifth_week_lv3.service;
+package com.sparta.fifth_week_lv3.Service;
 
 import com.sparta.fifth_week_lv3.dto.CourseDto;
 import com.sparta.fifth_week_lv3.dto.CourseResponseDto;
 import com.sparta.fifth_week_lv3.entity.Course;
 import com.sparta.fifth_week_lv3.repository.CourseRepository;
+import jakarta.transaction.Transactional;
 import lombok.Setter;
+import org.apache.catalina.security.SecurityUtil;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,4 +58,3 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 }
-

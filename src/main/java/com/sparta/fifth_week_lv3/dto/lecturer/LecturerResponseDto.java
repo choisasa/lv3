@@ -2,7 +2,9 @@ package com.sparta.fifth_week_lv3.dto.lecturer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sparta.fifth_week_lv3.entity.Lecturer;
+import lombok.Getter;
 
+@Getter
 public class LecturerResponseDto {
     @JsonProperty("lecturerName")
     private String lecturerName;

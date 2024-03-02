@@ -1,10 +1,12 @@
 package com.sparta.fifth_week_lv3.dto;
-
 import com.sparta.fifth_week_lv3.entity.Course;
 import lombok.*;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CourseDto {
+    private Long id;
     private String courseName;
     private Double price;
     private String category;

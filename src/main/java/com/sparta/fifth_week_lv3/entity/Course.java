@@ -5,13 +5,16 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "course")
-public class Course extends Timestamped {
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,4 +59,6 @@ public class Course extends Timestamped {
     public void setLecturerName(String lecturerName) {
         this.lecturerName = lecturerName;
     }
+
+    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 }
