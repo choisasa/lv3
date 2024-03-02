@@ -11,19 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j(topic = "강사 등록, 수정, 조회")
-@Tag(name = "강사 API", description = "강사 등록, 수정, 조회")
+@Tag(name = "강사 API", description = "강사 등록, 수정, 조회, 삭제")
 @RestController
 @RequiredArgsConstructor
 public class LecturerController {
     private final LecturerService lecturerService;
 
-    // 강사 등록
     @Operation(summary = "강사 등록", description = "강사 등록시 사용할 정보를 입력합니다.")
     @Parameter(name = "JSON", description = "lecturerName, career, company, phoneNumber, introduction 필요")
     @PostMapping("/lecturer")
@@ -32,14 +28,21 @@ public class LecturerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
-    // 강사정보 수정
-
     @Secured("ROLE_MANAGER")
     @Operation(summary = "강사 수정", description = "강사 수정시 사용할 정보를 입력합니다.")
     @Parameter(name = "JSON", description = "lecturerName, career, company, phoneNumber, introduction 필요")
     @PutMapping("/lecturer")
     public ResponseEntity<LecturerResponseDto> updateLecturerInfo(@RequestBody LecturerDto lecturerDto) {
         LecturerResponseDto responseDto = lecturerService.updateLecturerInfo(lecturerDto);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
+    @Secured("ROLE_MANAGER")
+    @Operation(summary = "강사 삭제", description = "강사 삭제시 사용할 정보를 입력합니다.")
+    @Parameter(name = "JSON", description = "lecturerName 필요")
+    @DeleteMapping("/lecturer")
+    public ResponseEntity<LecturerResponseDto> deleteLecturerInfo(@RequestBody LecturerDto lecturerDto) {
+        LecturerResponseDto responseDto = lecturerService.deleteLecturerInfo(lecturerDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 }
