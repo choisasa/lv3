@@ -1,18 +1,15 @@
 package com.sparta.fifth_week_lv3.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "course")
 public class Course {
 
@@ -32,33 +29,16 @@ public class Course {
     @Column(nullable = false)
     private String lecturerName;
 
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
+//    @Column(columnDefinition = "TIMESTAMP")
+//    private LocalDateTime createdAt;
 
     // 생성자
+    @Builder
     public Course(String courseName, Double price, String category, String lecturerName) {
         this.courseName = courseName;
         this.price = price;
         this.category = category;
         this.lecturerName = lecturerName;
-        this.createdAt=LocalDateTime.now();
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setLecturerName(String lecturerName) {
-        this.lecturerName = lecturerName;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {this.createdAt = createdAt;}
 }
