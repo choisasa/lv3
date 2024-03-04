@@ -27,8 +27,6 @@ public class Course {
     @Column(nullable = false)
     private String lecturerName;
 
-//    @Column(columnDefinition = "TIMESTAMP")
-//    private LocalDateTime createdAt;
 
     // 생성자
     @Builder
@@ -43,7 +41,6 @@ public class Course {
         this.courseName = courseName;
         this.price = price;
         this.category = category;
-        this.lecturerName = lecturerName;
 
     }
 

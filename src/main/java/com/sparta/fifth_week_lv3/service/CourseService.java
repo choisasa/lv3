@@ -45,6 +45,10 @@ public class CourseService {
         return courseRepository.findByCategory(category).stream().map(CourseResponseDto::new).toList();
     }
 
+    public List<CourseResponseDto> getCouresesByLecturerName(String lecturerName) {
+        return courseRepository.findByLecturerName(lecturerName).stream().map(CourseResponseDto::new).toList();
+    }
+
 
     @Transactional
     public CourseResponseDto updateCourseInfo(CourseRequestDto courseRequestDto) {
