@@ -1,7 +1,7 @@
 package com.sparta.fifth_week_lv3.service;
 
-import com.sparta.fifth_week_lv3.dto.CourseDto;
-import com.sparta.fifth_week_lv3.dto.CourseResponseDto;
+import com.sparta.fifth_week_lv3.dto.course.CourseRequestDto;
+import com.sparta.fifth_week_lv3.dto.course.CourseResponseDto;
 import com.sparta.fifth_week_lv3.entity.Course;
 import com.sparta.fifth_week_lv3.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +19,12 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     // 강의 동록
-    public CourseResponseDto registerCourse(CourseDto courseDto) {
-        String courseName = courseDto.getCourseName();
-        double price = courseDto.getPrice();
-        String category = courseDto.getCategory();
-        String lecturerName = courseDto.getLecturerName();
-        Course convertedEntity = courseDto.toEntity(courseName, price, category, lecturerName);
+    public CourseResponseDto registerCourse(CourseRequestDto courseRequestDto) {
+        String courseName = courseRequestDto.getCourseName();
+        double price = courseRequestDto.getPrice();
+        String category = courseRequestDto.getCategory();
+        String lecturerName = courseRequestDto.getLecturerName();
+        Course convertedEntity = courseRequestDto.toEntity(courseName, price, category, lecturerName);
 
         if (courseRepository.findByCourseName(courseName).isPresent()) {
             throw new IllegalArgumentException("중복된 강의이름입니다.");
@@ -47,10 +47,10 @@ public class CourseService {
 
 
     @Transactional
-    public CourseResponseDto updateCourseInfo(CourseDto courseDto) {
-        String courseName = courseDto.getCourseName();
-        Double price = courseDto.getPrice();
-        String category = courseDto.getCategory();
+    public CourseResponseDto updateCourseInfo(CourseRequestDto courseRequestDto) {
+        String courseName = courseRequestDto.getCourseName();
+        Double price = courseRequestDto.getPrice();
+        String category = courseRequestDto.getCategory();
         Course course = courseRepository.findByCourseName(courseName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
         course.update(courseName, price, category);
         CourseResponseDto responseDto = new CourseResponseDto(course);
@@ -58,8 +58,8 @@ public class CourseService {
     }
 
     @Transactional
-    public CourseResponseDto deleteCourseInfo(CourseDto courseDto) {
-        String courseName = courseDto.getCourseName();
+    public CourseResponseDto deleteCourseInfo(CourseRequestDto courseRequestDto) {
+        String courseName = courseRequestDto.getCourseName();
         Course course = courseRepository.findByCourseName(courseName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강의입니다."));
         courseRepository.delete(course);
         CourseResponseDto responseDto = new CourseResponseDto(course);

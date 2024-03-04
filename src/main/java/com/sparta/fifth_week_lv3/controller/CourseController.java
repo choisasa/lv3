@@ -1,7 +1,7 @@
 package com.sparta.fifth_week_lv3.controller;
 
-import com.sparta.fifth_week_lv3.dto.CourseDto;
-import com.sparta.fifth_week_lv3.dto.CourseResponseDto;
+import com.sparta.fifth_week_lv3.dto.course.CourseRequestDto;
+import com.sparta.fifth_week_lv3.dto.course.CourseResponseDto;
 import com.sparta.fifth_week_lv3.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,8 +27,8 @@ public class CourseController {
     @PostMapping("/course")
     @Operation(summary = "강의 등록", description = "새로운 강의를 등록합니다.")
     @Parameter(name = "JSON", description = "courseName, price, category, lecturerName 필요")
-    public ResponseEntity<CourseResponseDto> registerCourse(@RequestBody CourseDto courseDto) {
-        CourseResponseDto responseDto = courseService.registerCourse(courseDto);
+    public ResponseEntity<CourseResponseDto> registerCourse(@RequestBody CourseRequestDto courseRequestDto) {
+        CourseResponseDto responseDto = courseService.registerCourse(courseRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
@@ -36,8 +36,8 @@ public class CourseController {
     @Operation(summary = "강의 수정", description = "강의 수정시 사용할 정보를 입력합니다.")
     @Parameter(name = "JSON", description = " courseName, price, category 필요")
     @PutMapping("/course")
-    public ResponseEntity<CourseResponseDto> updateCourseInfo(@RequestBody CourseDto courseDto) {
-        CourseResponseDto responseDto = courseService.updateCourseInfo(courseDto);
+    public ResponseEntity<CourseResponseDto> updateCourseInfo(@RequestBody CourseRequestDto courseRequestDto) {
+        CourseResponseDto responseDto = courseService.updateCourseInfo(courseRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
@@ -45,8 +45,8 @@ public class CourseController {
     @Operation(summary = "강의 삭제", description = "강의 삭제시 사용할 정보를 입력합니다.")
     @Parameter(name = "JSON", description = "courseName 필요")
     @DeleteMapping("/course")
-    public ResponseEntity<CourseResponseDto> deleteCourseInfo(@RequestBody CourseDto courseDto) {
-        CourseResponseDto responseDto = courseService.deleteCourseInfo(courseDto);
+    public ResponseEntity<CourseResponseDto> deleteCourseInfo(@RequestBody CourseRequestDto courseRequestDto) {
+        CourseResponseDto responseDto = courseService.deleteCourseInfo(courseRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

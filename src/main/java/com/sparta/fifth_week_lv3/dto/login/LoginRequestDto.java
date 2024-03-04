@@ -1,4 +1,4 @@
-package com.sparta.fifth_week_lv3.dto;
+package com.sparta.fifth_week_lv3.dto.login;
 
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package com.sparta.fifth_week_lv3.service;
 
-import com.sparta.fifth_week_lv3.dto.lecturer.LecturerDto;
+import com.sparta.fifth_week_lv3.dto.lecturer.LecturerRequestDto;
 import com.sparta.fifth_week_lv3.dto.lecturer.LecturerResponseDto;
 import com.sparta.fifth_week_lv3.entity.Lecturer;
 import com.sparta.fifth_week_lv3.repository.LecturerRepository;
@@ -19,13 +19,13 @@ public class LecturerService {
     private final LecturerRepository lecturerRepository;
 
     // 강사 등록
-    public LecturerResponseDto registerLecturer(LecturerDto lecturerDto) {
-        String lecturerName = lecturerDto.getLecturerName();
-        int career = lecturerDto.getCareer();
-        String company = lecturerDto.getCompany();
-        String phoneNumber = lecturerDto.getPhoneNumber();
-        String introduction = lecturerDto.getPhoneNumber();
-        Lecturer convertedEntity = lecturerDto.toEntity(lecturerName, career, company, phoneNumber, introduction);
+    public LecturerResponseDto registerLecturer(LecturerRequestDto lecturerRequestDto) {
+        String lecturerName = lecturerRequestDto.getLecturerName();
+        int career = lecturerRequestDto.getCareer();
+        String company = lecturerRequestDto.getCompany();
+        String phoneNumber = lecturerRequestDto.getPhoneNumber();
+        String introduction = lecturerRequestDto.getPhoneNumber();
+        Lecturer convertedEntity = lecturerRequestDto.toEntity(lecturerName, career, company, phoneNumber, introduction);
         // 강사 등록 중복 확인
         if (lecturerRepository.findByLecturerName(lecturerName).isPresent()) {
             throw new IllegalArgumentException("중복된 강사이름입니다.");
@@ -36,12 +36,12 @@ public class LecturerService {
     }
 
     @Transactional
-    public LecturerResponseDto updateLecturerInfo(LecturerDto lecturerDto) {
-        String lecturerName = lecturerDto.getLecturerName();
-        int career = lecturerDto.getCareer();
-        String company = lecturerDto.getCompany();
-        String phoneNumber = lecturerDto.getPhoneNumber();
-        String introduction = lecturerDto.getPhoneNumber();
+    public LecturerResponseDto updateLecturerInfo(LecturerRequestDto lecturerRequestDto) {
+        String lecturerName = lecturerRequestDto.getLecturerName();
+        int career = lecturerRequestDto.getCareer();
+        String company = lecturerRequestDto.getCompany();
+        String phoneNumber = lecturerRequestDto.getPhoneNumber();
+        String introduction = lecturerRequestDto.getPhoneNumber();
         Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
         lecturer.update(career, company, phoneNumber, introduction);
         LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
@@ -49,8 +49,8 @@ public class LecturerService {
     }
 
     @Transactional
-    public LecturerResponseDto deleteLecturerInfo(LecturerDto lecturerDto) {
-        String lecturerName = lecturerDto.getLecturerName();
+    public LecturerResponseDto deleteLecturerInfo(LecturerRequestDto lecturerRequestDto) {
+        String lecturerName = lecturerRequestDto.getLecturerName();
         Lecturer lecturer = lecturerRepository.findByLecturerName(lecturerName).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 강사입니다."));
         lecturerRepository.delete(lecturer);
         LecturerResponseDto responseDto = new LecturerResponseDto(lecturer);
@@ -58,7 +58,7 @@ public class LecturerService {
     }
 
     // 강사 정보 수정
-    public LecturerResponseDto updateLecturerInfo(Long lecturerId, LecturerDto updatedLecturerDto) {
+    public LecturerResponseDto updateLecturerInfo(Long lecturerId, LecturerRequestDto updatedLecturerRequestDto) {
         Optional<Lecturer> optionalLecturer = lecturerRepository.findById(lecturerId);
         if (!optionalLecturer.isPresent()) {
             throw new IllegalArgumentException("해당 ID의 강사를 찾을 수 없습니다.");
@@ -67,10 +67,10 @@ public class LecturerService {
         Lecturer lecturer = optionalLecturer.get();
 
         // 수정된 정보 업데이트
-        Integer updatedCareer = updatedLecturerDto.getCareer();
-        String updatedCompany = updatedLecturerDto.getCompany();
-        String updatedPhoneNumber = updatedLecturerDto.getPhoneNumber();
-        String updatedIntroduction = updatedLecturerDto.getIntroduction();
+        Integer updatedCareer = updatedLecturerRequestDto.getCareer();
+        String updatedCompany = updatedLecturerRequestDto.getCompany();
+        String updatedPhoneNumber = updatedLecturerRequestDto.getPhoneNumber();
+        String updatedIntroduction = updatedLecturerRequestDto.getIntroduction();
 
         // 새로운 객체로 갱신
         Lecturer updatedLecturer = new Lecturer(

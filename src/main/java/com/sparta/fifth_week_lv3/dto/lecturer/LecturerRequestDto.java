@@ -4,14 +4,14 @@ import com.sparta.fifth_week_lv3.entity.Lecturer;
 import lombok.Getter;
 
 @Getter
-public class LecturerDto {
+public class LecturerRequestDto {
     private String lecturerName;
     private int career;
     private String company;
     private String phoneNumber;
     private String introduction;
 
-    public LecturerDto(String lecturerName, int career, String company, String phoneNumber, String introduction) {
+    public LecturerRequestDto(String lecturerName, int career, String company, String phoneNumber, String introduction) {
         this.lecturerName = lecturerName;
         this.career = career;
         this.company = company;
