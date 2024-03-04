@@ -62,13 +62,23 @@ public class CourseController {
     }
 
     // 카테고리별 강의 목록 조회
-    @GetMapping("/course/course/{category}")
+    @GetMapping("/course/category/{category}")
     @Parameter(name = "String", description = "category 필요")
     @Operation(summary = "카테고리별 강의 목록 조회", description = "선택한 카테고리에 포함된 강의 목록을 조회합니다.")
     public ResponseEntity<List<CourseResponseDto>> getCoursesByCategory(
             @PathVariable String category
     ) {
         List<CourseResponseDto> responseDtos = courseService.getCoursesByCategory(category);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDtos);
+    }
+
+    @GetMapping("/course/lecturerName/{lecturerName}")
+    @Parameter(name = "String", description = "lecturerName 필요")
+    @Operation(summary = "선택한 강사가 촬영한 강의 목록", description = "선택한 강사가 촬영한 강의 목록을 조회합니다.")
+    public ResponseEntity<List<CourseResponseDto>> getCoursesByLecturerName(
+            @PathVariable String lecturerName
+    ) {
+        List<CourseResponseDto> responseDtos = courseService.getCouresesByLecturerName(lecturerName);
         return ResponseEntity.status(HttpStatus.OK).body(responseDtos);
     }
 
